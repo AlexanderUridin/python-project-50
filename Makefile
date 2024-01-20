@@ -14,4 +14,8 @@ lint:
 	poetry run flake8 .
 
 setup: install build publish package-install
+
 check: build publish package-install
+
+test:
+	poetry run pytest
