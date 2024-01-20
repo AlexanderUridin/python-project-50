@@ -3,3 +3,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8e807bb55565ff5dba42/maintainability)](https://codeclimate.com/github/AlexanderUridin/python-project-50/maintainability)
 
 # Difference calculator Project:
+
+[![asciicast](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn.svg)](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn)
