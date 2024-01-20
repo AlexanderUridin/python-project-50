@@ -1,21 +1,19 @@
 name: Python CI
 
 on:
-  
-push
-pull_request
+  - push
+  - pull_request
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      
-uses: actions/checkout@v3
-name: Install dependencies
-    run: |
-      pip install poetry
-      make install
-run: make lint
-name: Build and install check
-run: make check
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          make install
+      - run: make lint
+      - name: Build and install check
+        run: make check
 
