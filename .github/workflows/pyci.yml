@@ -18,7 +18,7 @@ jobs:
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.2.0
         env:
-          CC_TEST_REPORTER_ID: 6606d6b7131c510f527c4a349a939b95890da29df19faafcce63152ff0185012
+          CC_TEST_REPORTER_ID: 8d1baa0d963ec9ae7177e4bd44edcde16935defe6aa47543f1339905b46f105c
         with:
           coverageCommand: poetry run pytest --cov --cov-report lcov
           coverageLocations: |
