@@ -5,7 +5,6 @@ def walk_unchanged(nest):
 
     for key in sorted(set(nest)):
         nested_level[key] = {
-            'status': 'remaining',
             'value': walk_unchanged(nest.get(key))
         }
     return nested_level
@@ -45,18 +44,16 @@ def walk(nest1, nest2):
             }
         elif nest1.get(key) == nest2.get(key):
             difference[key] = {
-                'status': 'remaining',
                 'value': walk_unchanged(nest1.get(key))
             }
         elif isinstance(check_type(nest1.get(key), nest2.get(key)), tuple):
             dict1, dict2 = check_type(nest1.get(key), nest2.get(key))
             difference[key] = {
-                'status': 'changed',
                 'value': walk(dict1, dict2)
             }
         else:
             difference[key] = {
-                'status': '2diff_values',
+                'status': 'updated',
                 'value': check_type(nest1.get(key), nest2.get(key))
             }
     return difference
