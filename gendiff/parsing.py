@@ -17,15 +17,18 @@ def parse(file1, file2):
     lines = []
 
     for key in sorted(all_keys):
+        value1 = get_normal_value(file1, key)
+        value2 = get_normal_value(file2, key)
+
         if key in deleted:
-            lines.append(f'  - {key}: {get_normal_value(file1, key)}')
+            lines.append(f'  - {key}: {value1}')
         elif key in remaining:
-            if file1.get(key) == file2.get(key):
-                lines.append(f'    {key}: {get_normal_value(file1, key)}')
+            if value1 == value2:
+                lines.append(f'    {key}: {value1}')
             else:
-                lines.append(f'  - {key}: {get_normal_value(file1, key)}')
-                lines.append(f'  + {key}: {get_normal_value(file2, key)}')
+                lines.append(f'  - {key}: {value1}')
+                lines.append(f'  + {key}: {value2}')
         elif key in added:
-            lines.append(f'  + {key}: {get_normal_value(file2, key)}')
+            lines.append(f'  + {key}: {value2}')
 
     return lines
