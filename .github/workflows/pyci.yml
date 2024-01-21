@@ -7,26 +7,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-      - name: Install poetry
-        run: pip install poetry
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-          cache: 'poetry'
       - name: Install dependencies
-        run: make install
+        run: |
+          pip install poetry
+          make install
       - run: make lint
       - run: make test
-      - name: Check & publish code coverage
+      - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: 8d1baa0d963ec9ae7177e4bd44edcde16935defe6aa47543f1339905b46f105c
         with:
           coverageCommand: poetry run pytest --cov --cov-report lcov
-          coverageLocations: ${{github.workspace}}/*.lcov:lcov
-      - name: Build and install package
-        run: make package
+          coverageLocations: |
+            ${{github.workspace}}/*.lcov:lcov
+      - name: Build and install check
+        run: make check
