@@ -1,10 +1,10 @@
-all = ['generate_diff']
-
 import os
-
 from gendiff.difference import build_diff_tree
 from gendiff.formaters import apply_formatter
 from gendiff.parser import parse
+
+
+all = ['generate_diff']
 
 
 def get_content(file_path):

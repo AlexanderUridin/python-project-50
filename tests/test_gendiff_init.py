@@ -28,6 +28,7 @@ def test_exception_in_generate_diff(input1, input2):
     assert str(e.value) == \
         'Comparison is available only for json and yaml files'
 
+
 @pytest.mark.parametrize('input1, input2, format, expected', [
     ('file1_nested.json', 'file2_nested.json',
         'plain', 'plain_result_nested.txt'),
