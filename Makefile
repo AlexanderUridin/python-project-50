@@ -19,3 +19,6 @@ check: build publish package-install
 
 test:
 	poetry run pytest
+
+test-cov:
+	poetry run pytest --cov

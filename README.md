@@ -7,3 +7,5 @@
 # Difference calculator Project:
 
 [![asciicast](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn.svg)](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn)
+
+[![asciicast](https://asciinema.org/a/Go0h5yOWlGjKs90kY807re9os.svg)](https://asciinema.org/a/Go0h5yOWlGjKs90kY807re9os)

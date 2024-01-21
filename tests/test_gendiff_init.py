@@ -15,5 +15,5 @@ def test_generate_diff_yaml():
     file_path2 = './tests/fixtures/file2.yml'
     result = generate_diff(file_path1, file_path2)
     correct = open('./tests/fixtures/result.txt')
-    
+
     assert result == correct.read()
