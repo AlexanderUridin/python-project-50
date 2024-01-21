@@ -1,47 +1,65 @@
-from gendiff.__init__ import generate_diff
-from gendiff.formaters.formater_plain import plain
+import pytest
+import json
+
+from gendiff import generate_diff
+from tests import get_full_path
 
 
-def test_generate_diff_json():
-    file_path1 = './tests/fixtures/file1.json'
-    file_path2 = './tests/fixtures/file2.json'
-    result = generate_diff(file_path1, file_path2)
-    correct = open('./tests/fixtures/result.txt')
-
-    assert result == correct.read()
-
-
-def test_generate_diff_yaml():
-    file_path1 = './tests/fixtures/file1.yml'
-    file_path2 = './tests/fixtures/file2.yml'
-    result = generate_diff(file_path1, file_path2)
-    correct = open('./tests/fixtures/result.txt')
-
-    assert result == correct.read()
+@pytest.mark.parametrize('input1, input2, expected', [
+    ('file1.json', 'file2.json', 'result.txt'),
+    ('file1.yml', 'file2.yml', 'result.txt'),
+    ('file1_nested.json', 'file2_nested.json', 'result_nested.txt'),
+    ('file1_nested.yml', 'file2_nested.yml', 'result_nested.txt')
+])
+def test_generate_diff(input1, input2, expected):
+    file1, file2 = map(get_full_path, (input1, input2))
+    result = generate_diff(file1, file2)
+    with open(f'{get_full_path(expected)}') as expected_file:
+        assert result == expected_file.read()
 
 
-def test_generate_diff_nested_json():
-    file_path1 = './tests/fixtures/file1_nested.json'
-    file_path2 = './tests/fixtures/file2_nested.json'
-    result = generate_diff(file_path1, file_path2)
-    correct = open('./tests/fixtures/result_nested.txt')
+@pytest.mark.parametrize('input1, input2', [
+    ('result.txt', 'result_nested.txt'),
+])
+def test_exception_in_generate_diff(input1, input2):
+    file1, file2 = map(get_full_path, (input1, input2))
+    with pytest.raises(Exception) as e:
+        generate_diff(file1, file2)
+    assert str(e.value) == \
+        'Comparison is available only for json and yaml files'
 
-    assert result == correct.read()
+@pytest.mark.parametrize('input1, input2, format, expected', [
+    ('file1_nested.json', 'file2_nested.json',
+        'plain', 'plain_result_nested.txt'),
+    ('file1_nested.yml', 'file2_nested.yml',
+        'plain', 'plain_result_nested.txt'),
+    ('file1.json', 'file2.json', 'plain', 'plain_result.txt'),
+    ('file1.yml', 'file2.yml', 'plain', 'plain_result.txt')
+])
+def test_generate_diff_in_plain_format(input1, input2, format, expected):
+    file1, file2 = map(get_full_path, (input1, input2))
+    result = generate_diff(file1, file2, format)
+    with open(f'{get_full_path(expected)}') as expected_file:
+        assert result == expected_file.read()
 
 
-def test_generate_diff_nested_yaml():
-    file_path1 = './tests/fixtures/file1_nested.yml'
-    file_path2 = './tests/fixtures/file2_nested.yml'
-    result = generate_diff(file_path1, file_path2)
-    correct = open('./tests/fixtures/result_nested.txt')
+@pytest.mark.parametrize('input1, input2, format', [
+    ('file1_nested.json', 'file2_nested.json', 'json'),
+    ('file1_nested.yml', 'file2_nested.yml', 'json')
+])
+def test_generate_diff_in_json_format(input1, input2, format):
+    file1, file2 = map(get_full_path, (input1, input2))
+    result = generate_diff(file1, file2, format)
+    assert json.loads(result)
 
-    assert result == correct.read()
 
-
-def test_generate_diff_in_plain_format():
-    file_path1 = './tests/fixtures/file1_nested.json'
-    file_path2 = './tests/fixtures/file2_nested.json'
-    result = generate_diff(file_path1, file_path2, format=plain)
-    correct = open('./tests/fixtures/result_plain_format.txt')
-
-    assert result == correct.read()
+@pytest.mark.parametrize('input1, input2, format', [
+    ('file1_nested.yml', 'file2_nested.yml', 'style'),
+    ('file1_nested.json', 'file2_nested.json', 'pain'),
+    ('file1_nested.yml', 'file2_nested.yml', 'JSON')
+])
+def test_exception_in_generate_diff_in_wrong_format(input1, input2, format):
+    file1, file2 = map(get_full_path, (input1, input2))
+    with pytest.raises(Exception) as e:
+        generate_diff(file1, file2, format)
+    assert str(e.value) == 'Invalid format, choose from stylish, plain, json'
