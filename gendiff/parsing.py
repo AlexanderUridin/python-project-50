@@ -1,34 +1,66 @@
-def get_normal_value(file, key):
-    value = file.get(key)
-    if isinstance(value, bool):
-        return str(value).lower()
-    return value
+def walk_unchanged(nest):
+    if not isinstance(nest, dict):
+        return nest
+    nested_level = {}
+
+    for key in sorted(set(nest)):
+        nested_level[key] = {
+            'status': 'remaining',
+            'value': walk_unchanged(nest.get(key))
+        }
+    return nested_level
+
+
+def check_type(item1, item2):
+    if not isinstance(item1, dict) and not isinstance(item2, dict):
+        return [item1, item2]
+    elif not isinstance(item1, dict) and isinstance(item2, dict):
+        return [item1, walk_unchanged(item2)]
+    elif isinstance(item1, dict) and not isinstance(item2, dict):
+        return [walk_unchanged(item1), item2]
+    else:
+        return item1, item2
+
+
+def walk(nest1, nest2):
+    difference = {}
+
+    keys1 = set(nest1)
+    keys2 = set(nest2)
+
+    all_keys = keys1 | keys2
+    added = keys2 - keys1
+    deleted = keys1 - keys2
+
+    for key in sorted(all_keys):
+        if key in added:
+            difference[key] = {
+                'status': 'added',
+                'value': walk_unchanged(nest2.get(key))
+            }
+        elif key in deleted:
+            difference[key] = {
+                'status': 'deleted',
+                'value': walk_unchanged(nest1.get(key))
+            }
+        elif nest1.get(key) == nest2.get(key):
+            difference[key] = {
+                'status': 'remaining',
+                'value': walk_unchanged(nest1.get(key))
+            }
+        elif isinstance(check_type(nest1.get(key), nest2.get(key)), tuple):
+            dict1, dict2 = check_type(nest1.get(key), nest2.get(key))
+            difference[key] = {
+                'status': 'changed',
+                'value': walk(dict1, dict2)
+            }
+        else:
+            difference[key] = {
+                'status': '2diff_values',
+                'value': check_type(nest1.get(key), nest2.get(key))
+            }
+    return difference
 
 
 def parse(file1, file2):
-    keys1 = set(file1)
-    keys2 = set(file2)
-
-    all_keys = keys1 | keys2
-    deleted = keys1 - keys2
-    remaining = keys1 & keys2
-    added = keys2 - keys1
-
-    lines = []
-
-    for key in sorted(all_keys):
-        value1 = get_normal_value(file1, key)
-        value2 = get_normal_value(file2, key)
-
-        if key in deleted:
-            lines.append(f'  - {key}: {value1}')
-        elif key in remaining:
-            if value1 == value2:
-                lines.append(f'    {key}: {value1}')
-            else:
-                lines.append(f'  - {key}: {value1}')
-                lines.append(f'  + {key}: {value2}')
-        elif key in added:
-            lines.append(f'  + {key}: {value2}')
-
-    return lines
+    return walk(file1, file2)
