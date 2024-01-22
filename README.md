@@ -25,16 +25,16 @@ make install
 
 Use command `gendiff` and specify pathes to files 
 
-Comparison of two JSON files 
+Comparison of two JSON files
 [![asciicast](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn.svg)](https://asciinema.org/a/6ZjniA8QIseerPeSXjyuwvfwn)
 
-Comparison of two YAML files  
+Comparison of two YAML files
 [![asciicast](https://asciinema.org/a/Go0h5yOWlGjKs90kY807re9os.svg)](https://asciinema.org/a/Go0h5yOWlGjKs90kY807re9os)
 
-Comparison of two nested files 
+Comparison of two nested files
 [![asciicast](https://asciinema.org/a/9FK3jcz7nE4UD9B1oZbPf6KwR.svg)](https://asciinema.org/a/9FK3jcz7nE4UD9B1oZbPf6KwR)
 
-Comparison printed in plain format 
+Comparison printed in plain format
 [![asciicast](https://asciinema.org/a/x3R9tEAJ8APBTKNyIF5udvCZg.svg)](https://asciinema.org/a/x3R9tEAJ8APBTKNyIF5udvCZg)
 
 Comparison printed in json format
