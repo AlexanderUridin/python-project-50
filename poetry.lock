@@ -33,7 +33,7 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "flake8"
-version = "7.0.0"
+version = "6.1.0"
 description = "the modular source code checker: pep8 pyflakes and co"
 category = "main"
 optional = false
@@ -42,7 +42,7 @@ python-versions = ">=3.8.1"
 [package.dependencies]
 mccabe = ">=0.7.0,<0.8.0"
 pycodestyle = ">=2.11.0,<2.12.0"
-pyflakes = ">=3.2.0,<3.3.0"
+pyflakes = ">=3.1.0,<3.2.0"
 
 [[package]]
 name = "iniconfig"
@@ -90,7 +90,7 @@ python-versions = ">=3.8"
 
 [[package]]
 name = "pyflakes"
-version = "3.2.0"
+version = "3.1.0"
 description = "passive checker of Python programs"
 category = "main"
 optional = false
@@ -149,7 +149,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "0bcfb5a9aa1141ba116790fa4e1b417b21edb6229365af0bbc4adc723ffadcbd"
+content-hash = "4785140f5ded33919a5b113d3532b6ddbc7aecdf81113500e6643eeb787098f9"
 
 [metadata.files]
 colorama = []
